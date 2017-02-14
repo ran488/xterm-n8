@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html ng-app="logApp">
+<head>
+<meta charset="ISO-8859-1">
+<title>Log Entries</title>
+<link rel="stylesheet" type="text/css" href="application.css" />
+<script
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<script src="js/controllers.js"></script>
+<script src="js/ui-utils.js"></script>
+<script src="http://www.w3schools.com/lib/w3data.js"></script>
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+<link rel="stylesheet"
+	href="http://www.w3schools.com/lib/w3-theme-blue-grey.css">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body ng-controller="logAppController" class="w3-theme-l4">
+	<div style="min-width: 400px;">
+		<ul class="w3-navbar w3-large w3-theme-d4">
+			<li><a href="javascript:w3_open()"><i class="fa fa-bars"></i></a></li>
+			<li class="w3-navitem">Sample App - Spring Boot, Integration, REST API, Embedded H2, AngularJS</li>
+			<li class="w3-right"><a
+				href="javascript:toggleSearch('searchBox')"><i
+					class="fa fa-search"></i></a></li>
+			<li class="w3-right"><a
+				href="javascript:toggleSearch('filterBox')"><i
+					class="fa fa-filter"></i></a></li>
+		</ul>
+
+		<div w3-include-html="navpanel.html"></div>
+
+		<div class="w3-accordion-content w3-container" id="searchBox">
+			<p class="w3-opacity">
+				<b>Search</b>
+			</p>
+			<div class="w3-panel w3-white w3-card-2 w3-display-container">
+				<span class="w3-display-topright w3-padding w3-hover-red"
+					onclick="javascript:toggleSearch('searchBox')">X</span>
+
+				<form>
+					<p class="w3-text-blue">
+						Name: <input ng-model="first" /> {{first}}
+					<p/>
+						<button type="button" ng-click="search()">Search</button>
+						<button type="button" ng-click="bodid=''; country='';first='';last=''">Clear</button>
+					<p />
+				</form>
+			</div>
+		</div>
+
+		<div class="w3-accordion-content w3-container" id="filterBox">
+			<p class="w3-opacity">
+				<b>Filter On Page</b>
+			</p>
+			<div class="w3-panel w3-white w3-card-2 w3-display-container">
+				<span class="w3-display-topright w3-padding w3-hover-red"
+					onclick="javascript:toggleSearch('filterBox')">X</span>
+				<form>
+					<p class="w3-text-blue">
+						Filter On Page: <input ng-model="query" /> {{query}}
+					<p />
+				</form>
+			</div>
+		</div>
+
+		<div class="w3-container w3-responsive" style="width: 100%">
+			<p class="w3-opacity">
+				<b>Table Entries</b>
+			</p>
+
+			<table align="center" class="w3-table w3-striped w3-bordered w3-tiny">
+				<tr>
+					<th>Name</th>
+					<th>Notes</th>
+				</tr>
+				<tr ng-repeat="logentry in logentries | filter:query">
+					<td><a href="" ng-click="$parent.first = logentry.name;search()">{{logentry.name}}</a></td>
+					<td>{{logentry.notes}}</td>
+				</tr>
+				<tr>
+					<td colspan="10">{{logentries.length}} items available.</td>
+				</tr>
+			</table>
+		</div>
+
+
+
+	</div>
+
+	<!-- 
+	<br />Raw Model:
+	<br />
+	<textarea cols="200" rows="30" readonly="readonly">{{logentries}}</textarea>
+	 -->
+</body>
+
+<script>
+w3IncludeHTML();
+</script>
+
+</html>
+
+
+
+
+

@@ -1,0 +1,50 @@
+body {
+	background: #adadbf;
+	font-family: "Trebuchet MS", Verdana, Arial, serif;
+	font-style: normal;
+	font-size: 10px;
+}
+
+p.normal {
+	font-style: normal;
+}
+
+table {
+	width: 90%;
+	background-color: white;
+	border: 1px;
+	border-color: #adadbf;
+	border-style: inset;
+}
+
+th {
+	font-weight:bold;
+	font-size:12px;
+	padding: 1px; 
+	border: 0px;
+}
+
+td {
+	border-bottom: 1px solid #ddd;
+	border-left: 1px solid #ddd;
+}
+
+input {
+	background-color: #DDE;
+}
+
+textarea {
+	background-color: #EEF;
+}
+
+.searchBox {
+	width: 50%;
+	background-color: #9999BB;
+	border: 1px;
+	border-color: #adadbf;
+	border-style: inset;
+	padding: 5px;
+	margin:auto;
+	
+	
+}

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:int="http://www.springframework.org/schema/integration"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:lang="http://www.springframework.org/schema/lang" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.3.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang-4.3.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd
+		http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration-4.3.xsd">
+
+	<int:message-history />
+
+	<int:gateway id="integrationGatewayBean" service-interface="com.ran488.integration.CrmLeadGateway">
+		<int:method name="submit" request-channel="startFlowRequestChannel"
+			reply-channel="startFlowReplyChannel" />
+	</int:gateway>
+	<int:channel id="startFlowRequestChannel" />
+	<int:channel id="startFlowReplyChannel" />
+	<bean id="genericServiceActivator" class="com.ran488.integration.GenericSvcActivator" />
+	<int:service-activator input-channel="startFlowRequestChannel"
+		output-channel="startFlowReplyChannel" ref="genericServiceActivator"
+		method="onMessage" />
+</beans>

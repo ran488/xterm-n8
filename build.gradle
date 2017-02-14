@@ -1,0 +1,55 @@
+buildscript {
+	ext {
+		springBootVersion = '1.4.3.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+
+jar {
+	baseName = 'prototype-app'
+	version = '1.0'
+}
+
+// Copy resources into the jar as static content, where Spring expects it.
+jar.into('static') {
+    from('src/main/webapp')
+}
+
+sourceCompatibility = 1.8
+
+repositories {
+	mavenCentral()
+	flatDir {
+		dirs 'lib'
+	}
+}
+
+
+dependencies {
+	//compile('org.springframework.boot:spring-boot-starter-data-mongodb')
+	compile('org.springframework.boot:spring-boot-starter-integration')
+	compile('org.springframework.boot:spring-boot-starter-web')
+	//compile('commons-dbcp:commons-dbcp:1.4')
+	compile("org.springframework:spring-jdbc")
+	//compile('org.springframework.boot:spring-boot-starter-freemarker')
+	//compile('org.springframework.retry:spring-retry')
+	compile('org.springframework.boot:spring-boot-starter-web-services')
+	
+	// Embedded H2 database @see https://dzone.com/articles/integrate-h2-database-in-your-spring-boot-applicat
+	compile('com.h2database:h2')
+	
+	compileOnly('org.projectlombok:lombok')
+	//compile('org.mybatis.spring.boot:mybatis-spring-boot-starter:1.2.0')
+	
+	
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+}
