@@ -17,3 +17,26 @@ All business logic, company-specific info, and references to the back-end system
 - HTML/CSS/JavaScript
 
 
+## Building and Running
+
+- Regenerate Eclipse project metadata
+```
+gradlew eclipse
+```
+- Clean and build
+```
+gradlew clean build
+```
+- Run from Gradle
+```
+gradlew bootRun
+```
+- Run from command-line (after building JAR) Windows
+```
+java -jar build\libs\prototype-app-1.0.jar
+```
+- Run from command-line (after building JAR) *nix
+```
+java -jar ./build/libs/prototype-app-1.0.jar
+```
+
