@@ -40,3 +40,5 @@ java -jar build\libs\prototype-app-1.0.jar
 java -jar ./build/libs/prototype-app-1.0.jar
 ```
 
+## Demo
+See what it looks like on Heroku - http://peaceful-fortress-82166.herokuapp.com/
