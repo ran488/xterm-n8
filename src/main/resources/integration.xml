@@ -24,4 +24,38 @@
 	<int:service-activator input-channel="startFlowRequestChannel"
 		output-channel="startFlowReplyChannel" ref="genericServiceActivator"
 		method="onMessage" />
+
+
+
+	<!-- mail support -->
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="smtp.gm.com" />
+		<property name="port" value="25" />
+	
+	<!-- 
+		<property name="host" value="${POSTMARK_SMTP_SERVER}" />
+		<property name="port" value="25" />
+		<property name="username" value="${POSTMARK_API_TOKEN}"/>
+		<property name="password" value="${POSTMARK_API_TOKEN}"/>
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.smtp.starttls.enable">true</prop>
+			</props>
+		</property>
+	-->
+	</bean>
+
+
+	<bean id="templateMessage" class="org.springframework.mail.SimpleMailMessage">
+		<property name="from" value="no-reply@gm.com" />
+		<property name="subject" value="Make America great again!" />
+	</bean>
+
+	<bean id="ticketSvc" class="com.ran488.domain.TicketService">
+		<constructor-arg name="mailSender" ref="mailSender" />
+		<constructor-arg name="templateMessage" ref="templateMessage" />
+	</bean>
+
+
 </beans>
