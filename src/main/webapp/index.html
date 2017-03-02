@@ -86,9 +86,9 @@
 				<tr ng-repeat="logentry in logentries | filter:query">
 					<td>{{logentry.id}}</td>
 					<td>{{logentry.system}}</td>					
+					<td>{{logentry.status}}</td>
 					<td><a href="" ng-click="$parent.first = logentry.userId;search()">{{logentry.userId}}</a></td>
 					<td>{{logentry.email}}</td>
-					<td>{{logentry.status}}</td>
 					<td>{{logentry.description}}</td>
 					<td>{{logentry.createdFormatted}}</td>
 
