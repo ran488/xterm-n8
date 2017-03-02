@@ -6,4 +6,12 @@ DROP TABLE LEADSADMIN.TICKETS;
 
 CREATE TABLE LEADSADMIN.TICKETS(id IDENTITY PRIMARY KEY, userid VARCHAR(50), email VARCHAR(100), system VARCHAR(50) , description VARCHAR(100), status VARCHAR(20), created TIMESTAMP DEFAULT NOW(), updated TIMESTAMP DEFAULT NOW());
 
- 
+drop table LEADSADMIN.EMPLOYEES;
+
+CREATE TABLE LEADSADMIN.EMPLOYEES(id IDENTITY PRIMARY KEY, 
+	name varchar(50), 
+	userid varchar(20),
+	phone varchar(50), 
+	email varchar(100),
+	dept varchar(100),
+	location varchar(100)); 

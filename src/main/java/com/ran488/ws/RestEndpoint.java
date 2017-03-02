@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ran488.dao.EmployeeDao;
 import com.ran488.dao.TicketsDao;
 import com.ran488.dao.UserDao;
+import com.ran488.dao.dto.Employee;
 import com.ran488.dao.dto.Ticket;
 import com.ran488.dao.dto.Tickets;
 import com.ran488.domain.TicketService;
@@ -35,8 +37,11 @@ public class RestEndpoint {
 
 	@Autowired
 	private final TicketsDao dao;
-	
-	@Autowired 
+
+	@Autowired
+	final EmployeeDao empDao;
+
+	@Autowired
 	private final TicketService ticketSvc;
 
 	/**
@@ -45,10 +50,12 @@ public class RestEndpoint {
 	 * 
 	 * @param crmLeadGateway
 	 */
-	public RestEndpoint(final CrmLeadGateway<String> crmLeadGateway, final TicketsDao dao, TicketService ticketSvc) {
+	public RestEndpoint(final CrmLeadGateway<String> crmLeadGateway, final TicketsDao dao, TicketService ticketSvc,
+			EmployeeDao empDao) {
 		this.crmLeadGateway = crmLeadGateway;
 		this.ticketSvc = ticketSvc;
 		this.dao = dao;
+		this.empDao = empDao;
 	}
 
 	/**
@@ -141,18 +148,33 @@ public class RestEndpoint {
 		content.append(" tickets on your behalf.\n");
 		String emailAddress = tickets.getTickets().get(0).getEmail();
 		String user = tickets.getTickets().get(0).getUserId();
-		
+
 		for (Ticket t : tickets.getTickets()) {
 			log.info("Inserting " + t.toString());
 			dao.insert(t);
-			content.append(String.format("%nSubmitted to [%s] - %s (%s)%n", t.getSystem(), t.getDescription(), t.getStatus()));
-			
+			content.append(
+					String.format("%nSubmitted to [%s] - %s (%s)%n", t.getSystem(), t.getDescription(), t.getStatus()));
+
 		}
 		content.append("\n\nCheck http://peaceful-fortress-82166.herokuapp.com?first");
 		content.append(user).append(" to check ticket status.");
 		this.ticketSvc.notifyOriginator(emailAddress, content.toString());
-		
-		
+
+	}
+
+	/**
+	 * to request from bot, can be whatever we want.
+	 * 
+	 * @param firstName
+	 * @return
+	 */
+	@RequestMapping("/api/employee")
+	public Employee getEmployee(@RequestParam(name = "user", required = false) String userName) {
+		log.info(String.format("Retrieving the employee record for user" + userName));
+		if (userName != null && !"".equals(userName))
+			return empDao.getTicketsByUserID(userName);
+		else
+			return new Employee();
 	}
 
 }

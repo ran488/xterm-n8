@@ -37,4 +37,8 @@
 		<constructor-arg name="template" ref="jdbcTemplate-h2" />
 	</bean>
 
+	<bean id="employeeDao" class="com.ran488.dao.EmployeeDao">
+		<constructor-arg name="template" ref="jdbcTemplate-h2" />
+	</bean>
+
 </beans>
