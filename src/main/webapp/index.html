@@ -78,6 +78,7 @@
 					<th>Ticket System</th>
 					<th>Status</th>
 					<th>User ID</th>
+					<th>Email</th>
 					<th>Description</th>
 					<th>Created</th>
 
@@ -86,6 +87,7 @@
 					<td>{{logentry.id}}</td>
 					<td>{{logentry.system}}</td>					
 					<td><a href="" ng-click="$parent.first = logentry.userId;search()">{{logentry.userId}}</a></td>
+					<td>{{logentry.email}}</td>
 					<td>{{logentry.status}}</td>
 					<td>{{logentry.description}}</td>
 					<td>{{logentry.createdFormatted}}</td>

@@ -30,6 +30,9 @@ public class Ticket {
 	private String userId;
 	@Getter
 	@Setter
+	private String email;
+	@Getter
+	@Setter
 	private java.sql.Timestamp created;
 	@Getter
 	@Setter
