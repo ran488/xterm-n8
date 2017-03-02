@@ -3,11 +3,14 @@
  */
 package com.ran488.ws;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
+
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ran488.dao.TicketsDao;
 import com.ran488.dao.UserDao;
 import com.ran488.dao.dto.Ticket;
+import com.ran488.dao.dto.Tickets;
 import com.ran488.exception.CrmLeadSubmissionException;
 import com.ran488.integration.CrmLeadGateway;
 
@@ -85,16 +89,54 @@ public class RestEndpoint {
 
 	}
 
+	/**
+	 * For the UI, taken from template. don't change too much here to avoid
+	 * rework at last minute of display and search.
+	 * 
+	 * @param bodid
+	 * @param firstName
+	 * @param lastName
+	 * @param countryCode
+	 * @return
+	 */
 	@RequestMapping("/api/loglist")
-	public List<Ticket> getLogEntries(@RequestParam(name = "bodid", required=false) String bodid, 
-			@RequestParam(name = "first", required=false) String firstName, 
-			@RequestParam(name = "last", required=false) String lastName, 
-			@RequestParam(name = "country", required=false) String countryCode) {
-		log.info(String.format("Retrieving the list of log entries BOD ID [%s] First [%s] Last [%s] Country [%s]...",bodid, firstName, lastName, countryCode));
+	public List<Ticket> getTicketList(@RequestParam(name = "bodid", required = false) String bodid,
+			@RequestParam(name = "first", required = false) String firstName,
+			@RequestParam(name = "last", required = false) String lastName,
+			@RequestParam(name = "country", required = false) String countryCode) {
+		log.info(String.format("Retrieving the list of log entries BOD ID [%s] First [%s] Last [%s] Country [%s]...",
+				bodid, firstName, lastName, countryCode));
 		if (firstName != null && !"".equals(firstName))
 			return dao.getTicketsByUserID(firstName);
 		else
 			return dao.getAllTickets();
+	}
+
+	/**
+	 * to request from bot, can be whatever we want.
+	 * 
+	 * @param firstName
+	 * @return
+	 */
+	@RequestMapping("/api/tickets/list")
+	public Tickets getTickets(@RequestParam(name = "user", required = false) String userName) {
+		log.info(String.format("Retrieving the list of tickets for user" + userName));
+		Tickets tickets = new Tickets();
+		if (userName != null && !"".equals(userName))
+			tickets.setTickets(dao.getTicketsByUserID(userName));
+		else
+			tickets.setTickets(dao.getAllTickets());
+
+		return tickets;
+	}
+
+	@RequestMapping("/api/tickets/submit")
+	public void submitTickets(@RequestBody(required = true) Tickets tickets) {
+		log.info(String.format("submitting tickets" + tickets.toString()));
+		for (Ticket t : tickets.getTickets()) {
+			log.info("Inserting " + t.toString());
+			dao.insert(t);
+		}
 	}
 
 }
