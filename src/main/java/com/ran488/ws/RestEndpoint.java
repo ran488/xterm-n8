@@ -3,8 +3,6 @@
  */
 package com.ran488.ws;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
-
 import java.util.List;
 
 import org.slf4j.Logger;
