@@ -25,7 +25,7 @@ public class TicketServiceTest extends ApplicationTests {
 
 	@Test @Ignore
 	public void testNotifyOriginator() {
-		ticketService.notifyOriginator();
+		ticketService.notifyOriginator("ran488@gmail.com", "Testing from JUnit test case");
 	}
 
 }

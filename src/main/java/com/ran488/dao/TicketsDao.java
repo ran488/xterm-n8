@@ -2,6 +2,7 @@ package com.ran488.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -18,6 +19,8 @@ public class TicketsDao {
 	private static final String MAIN_QUERY_BY_USER = "SELECT * FROM LEADSADMIN.TICKETS WHERE USERID = ?";
 
 	private static final String MAIN_QUERY_BY_TICKET_ID = "SELECT * FROM LEADSADMIN.TICKETS WHERE ID = ?";
+	
+	private static final String INSERT_SQL = "INSERT INTO LEADSADMIN.TICKETS(USERID, SYSTEM, DESCRIPTION, STATUS) VALUES (?,?,?,?)";
 
 	private static final Logger log = LoggerFactory.getLogger(TicketsDao.class);
 
@@ -35,6 +38,28 @@ public class TicketsDao {
 		return rows;
 	}
 	
+	public List<Ticket> getTicketsByUserID(final String userId) {
+		log.info(String.format("Retrieving all tickets for %s from embedded DB....", userId));
+		Object[] params = new Object[] {userId}; 
+		List<Ticket> rows = template.query(MAIN_QUERY_BY_USER, params, new TicketRowMapper());
+		log.info(String.format("Found/Returning %s rows from ticket table.", rows.size()));
+		return rows;
+	}
+	
+	public List<Ticket> getTicketsById(final Long ticketId) {
+		log.info(String.format("Retrieving ticket # %s from embedded DB....", ticketId));
+		Object[] params = new Object[] {ticketId}; 
+		List<Ticket> rows = template.query(MAIN_QUERY_BY_TICKET_ID, params, new TicketRowMapper());
+		log.info(String.format("Found/Returning %s rows from ticket table.", rows.size()));
+		return rows;
+	}
+	
+	public int insert(final Ticket ticket) {
+		log.info(String.format("Inserting ticket %s into embedded DB....", ticket.toString()));
+		Object[] params = new Object[] {ticket.getUserId(), ticket.getSystem(), ticket.getDescription(), ticket.getStatus()}; 
+		return template.update(INSERT_SQL, params);
+	}
+	
 	
 	private static final class TicketRowMapper implements RowMapper<Ticket> {
 		public Ticket mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -45,8 +70,12 @@ public class TicketsDao {
 			ticket.setStatus(rs.getString("STATUS"));
 			ticket.setCreated(rs.getTimestamp("CREATED"));
 			ticket.setUpdated(rs.getTimestamp("UPDATED"));
+			ticket.setSystem(rs.getString("SYSTEM"));
+			ticket.setCreatedFormatted(new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(rs.getTimestamp("CREATED")));
 			return ticket;
 		}
 	}
+	
+	
 
 }

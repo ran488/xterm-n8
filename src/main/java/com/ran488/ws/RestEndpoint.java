@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ran488.dao.TicketsDao;
 import com.ran488.dao.UserDao;
+import com.ran488.dao.dto.Ticket;
 import com.ran488.exception.CrmLeadSubmissionException;
 import com.ran488.integration.CrmLeadGateway;
 
@@ -29,7 +31,7 @@ public class RestEndpoint {
 	private final CrmLeadGateway<String> crmLeadGateway;
 
 	@Autowired
-	private final UserDao dao;
+	private final TicketsDao dao;
 
 	/**
 	 * Create an instance of the REST endpoint handler, injecting a CRM lead
@@ -37,7 +39,7 @@ public class RestEndpoint {
 	 * 
 	 * @param crmLeadGateway
 	 */
-	public RestEndpoint(final CrmLeadGateway<String> crmLeadGateway, final UserDao dao) {
+	public RestEndpoint(final CrmLeadGateway<String> crmLeadGateway, final TicketsDao dao) {
 		this.crmLeadGateway = crmLeadGateway;
 		this.dao = dao;
 	}
@@ -84,15 +86,15 @@ public class RestEndpoint {
 	}
 
 	@RequestMapping("/api/loglist")
-	public List<com.ran488.dao.dto.User> getLogEntries(@RequestParam(name = "bodid", required=false) String bodid, 
+	public List<Ticket> getLogEntries(@RequestParam(name = "bodid", required=false) String bodid, 
 			@RequestParam(name = "first", required=false) String firstName, 
 			@RequestParam(name = "last", required=false) String lastName, 
 			@RequestParam(name = "country", required=false) String countryCode) {
 		log.info(String.format("Retrieving the list of log entries BOD ID [%s] First [%s] Last [%s] Country [%s]...",bodid, firstName, lastName, countryCode));
 		if (firstName != null && !"".equals(firstName))
-			return dao.getUsers(firstName);
+			return dao.getTicketsByUserID(firstName);
 		else
-			return dao.getUsers();
+			return dao.getAllTickets();
 	}
 
 }

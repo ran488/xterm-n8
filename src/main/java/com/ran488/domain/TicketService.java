@@ -20,18 +20,17 @@ public class TicketService {
 		this.mailSender = mailSender;
 		this.templateMessage = templateMessage;
 	}
-
+	
 	/**
 	 * Notify originator of the ticket/request with status of the ticket
 	 * submission.
 	 * 
 	 */
-	public void notifyOriginator() throws MailException {
+	public void notifyOriginator(final String emailAddress, final String content) throws MailException {
 		SimpleMailMessage msg = new SimpleMailMessage(this.templateMessage);
-		msg.setTo("ran488@gmail.com");
-		msg.setText("Are you ready to make America Great Again?");
+		msg.setTo(emailAddress);
+		msg.setText(content);
 		this.mailSender.send(msg);
-
 	}
 
 }

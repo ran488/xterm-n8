@@ -18,6 +18,9 @@ public class Ticket {
 	private Long id;
 	@Getter
 	@Setter
+	private String system;
+	@Getter
+	@Setter
 	private String description;
 	@Getter
 	@Setter
@@ -28,6 +31,9 @@ public class Ticket {
 	@Getter
 	@Setter
 	private java.sql.Timestamp created;
+	@Getter
+	@Setter
+	String createdFormatted;
 	@Getter
 	@Setter
 	private java.sql.Timestamp updated;

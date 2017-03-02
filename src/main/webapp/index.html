@@ -22,7 +22,7 @@
 	<div style="min-width: 400px;">
 		<ul class="w3-navbar w3-large w3-theme-d4">
 			<li><a href="javascript:w3_open()"><i class="fa fa-bars"></i></a></li>
-			<li class="w3-navitem">Sample App - Spring Boot, Integration, REST API, Embedded H2, AngularJS</li>
+			<li class="w3-navitem">Tickets Portal</li>
 			<li class="w3-right"><a
 				href="javascript:toggleSearch('searchBox')"><i
 					class="fa fa-search"></i></a></li>
@@ -43,7 +43,7 @@
 
 				<form>
 					<p class="w3-text-blue">
-						Name: <input ng-model="first" /> {{first}}
+						User ID: <input ng-model="first" /> {{first}}
 					<p/>
 						<button type="button" ng-click="search()">Search</button>
 						<button type="button" ng-click="bodid=''; country='';first='';last=''">Clear</button>
@@ -69,17 +69,27 @@
 
 		<div class="w3-container w3-responsive" style="width: 100%">
 			<p class="w3-opacity">
-				<b>Table Entries</b>
+				<b>Tickets Submitted For You</b>
 			</p>
 
 			<table align="center" class="w3-table w3-striped w3-bordered w3-tiny">
 				<tr>
-					<th>Name</th>
-					<th>Notes</th>
+					<th>Ticket ID</th>
+					<th>Ticket System</th>
+					<th>Status</th>
+					<th>User ID</th>
+					<th>Description</th>
+					<th>Created</th>
+
 				</tr>
 				<tr ng-repeat="logentry in logentries | filter:query">
-					<td><a href="" ng-click="$parent.first = logentry.name;search()">{{logentry.name}}</a></td>
-					<td>{{logentry.notes}}</td>
+					<td>{{logentry.id}}</td>
+					<td>{{logentry.system}}</td>					
+					<td><a href="" ng-click="$parent.first = logentry.userId;search()">{{logentry.userId}}</a></td>
+					<td>{{logentry.status}}</td>
+					<td>{{logentry.description}}</td>
+					<td>{{logentry.createdFormatted}}</td>
+
 				</tr>
 				<tr>
 					<td colspan="10">{{logentries.length}} items available.</td>
