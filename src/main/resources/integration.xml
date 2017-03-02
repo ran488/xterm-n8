@@ -49,7 +49,7 @@
 
 
 	<bean id="templateMessage" class="org.springframework.mail.SimpleMailMessage">
-		<property name="from" value="no-reply@gm.com" />
+		<property name="from" value="robb.nicholson@gm.com" />
 		<property name="subject" value="IT Buddy has submitted tickets on your behalf" />
 	</bean>
 
