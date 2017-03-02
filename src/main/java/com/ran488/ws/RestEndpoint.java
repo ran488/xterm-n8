@@ -156,7 +156,7 @@ public class RestEndpoint {
 					String.format("%nSubmitted to [%s] - %s (%s)%n", t.getSystem(), t.getDescription(), t.getStatus()));
 
 		}
-		content.append("\n\nCheck http://peaceful-fortress-82166.herokuapp.com?first");
+		content.append("\n\nCheck http://peaceful-fortress-82166.herokuapp.com?first=");
 		content.append(user).append(" to check ticket status.");
 		this.ticketSvc.notifyOriginator(emailAddress, content.toString());
 
