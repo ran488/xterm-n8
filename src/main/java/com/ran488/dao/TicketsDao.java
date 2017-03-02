@@ -16,7 +16,7 @@ public class TicketsDao {
 
 	private static final String MAIN_QUERY = "SELECT * FROM LEADSADMIN.TICKETS";
 
-	private static final String MAIN_QUERY_BY_USER = "SELECT * FROM LEADSADMIN.TICKETS WHERE USERID = upper(?)";
+	private static final String MAIN_QUERY_BY_USER = "SELECT * FROM LEADSADMIN.TICKETS WHERE upper(USERID) = upper(?)";
 
 	private static final String MAIN_QUERY_BY_TICKET_ID = "SELECT * FROM LEADSADMIN.TICKETS WHERE ID = ?";
 	
