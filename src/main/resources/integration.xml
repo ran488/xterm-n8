@@ -29,10 +29,12 @@
 
 	<!-- mail support -->
 	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
-		<property name="host" value="smtp.gm.com" />
+	<!--
+		<property name="host" value="forwarder.gm.com" />
 		<property name="port" value="25" />
+	-->
 	
-	<!-- 
+	 
 		<property name="host" value="${POSTMARK_SMTP_SERVER}" />
 		<property name="port" value="25" />
 		<property name="username" value="${POSTMARK_API_TOKEN}"/>
@@ -43,13 +45,12 @@
 				<prop key="mail.smtp.starttls.enable">true</prop>
 			</props>
 		</property>
-	-->
 	</bean>
 
 
 	<bean id="templateMessage" class="org.springframework.mail.SimpleMailMessage">
 		<property name="from" value="no-reply@gm.com" />
-		<property name="subject" value="Make America great again!" />
+		<property name="subject" value="IT Buddy has submitted tickets on your behalf" />
 	</bean>
 
 	<bean id="ticketSvc" class="com.ran488.domain.TicketService">

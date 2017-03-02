@@ -17,6 +17,7 @@ import com.ran488.dao.TicketsDao;
 import com.ran488.dao.UserDao;
 import com.ran488.dao.dto.Ticket;
 import com.ran488.dao.dto.Tickets;
+import com.ran488.domain.TicketService;
 import com.ran488.exception.CrmLeadSubmissionException;
 import com.ran488.integration.CrmLeadGateway;
 
@@ -34,6 +35,9 @@ public class RestEndpoint {
 
 	@Autowired
 	private final TicketsDao dao;
+	
+	@Autowired 
+	private final TicketService ticketSvc;
 
 	/**
 	 * Create an instance of the REST endpoint handler, injecting a CRM lead
@@ -41,8 +45,9 @@ public class RestEndpoint {
 	 * 
 	 * @param crmLeadGateway
 	 */
-	public RestEndpoint(final CrmLeadGateway<String> crmLeadGateway, final TicketsDao dao) {
+	public RestEndpoint(final CrmLeadGateway<String> crmLeadGateway, final TicketsDao dao, TicketService ticketSvc) {
 		this.crmLeadGateway = crmLeadGateway;
+		this.ticketSvc = ticketSvc;
 		this.dao = dao;
 	}
 
@@ -131,10 +136,23 @@ public class RestEndpoint {
 	@RequestMapping("/api/tickets/submit")
 	public void submitTickets(@RequestBody(required = true) Tickets tickets) {
 		log.info(String.format("submitting tickets" + tickets.toString()));
+		StringBuffer content = new StringBuffer();
+		content.append("IT Buddy has submitted ").append(tickets.getTickets().size());
+		content.append(" tickets on your behalf.\n");
+		String emailAddress = tickets.getTickets().get(0).getEmail();
+		String user = tickets.getTickets().get(0).getUserId();
+		
 		for (Ticket t : tickets.getTickets()) {
 			log.info("Inserting " + t.toString());
 			dao.insert(t);
+			content.append(String.format("%nSubmitted to [%s] - %s (%s)%n", t.getSystem(), t.getDescription(), t.getStatus()));
+			
 		}
+		content.append("\n\nCheck http://peaceful-fortress-82166.herokuapp.com?first");
+		content.append(user).append(" to check ticket status.");
+		this.ticketSvc.notifyOriginator(emailAddress, content.toString());
+		
+		
 	}
 
 }
